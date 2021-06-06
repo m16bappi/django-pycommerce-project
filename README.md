@@ -1,2 +1,2 @@
-# pycom
+# Django ecommerce project
  
