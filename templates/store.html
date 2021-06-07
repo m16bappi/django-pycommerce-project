@@ -1,6 +1,4 @@
-{% extends 'base.html' %} 
-{% load static %} 
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 <section class="section-content padding-y">
     <div class="container">
         <div class="row">
@@ -25,13 +23,18 @@
                         >
                             <div class="card-body">
                                 <ul class="list-menu">
-                                    <li><a href="#">People </a></li>
-                                    <li><a href="#">Watches </a></li>
-                                    <li><a href="#">Cinema </a></li>
-                                    <li><a href="#">Clothes </a></li>
-                                    <li><a href="#">Home items </a></li>
-                                    <li><a href="#">Animals</a></li>
-                                    <li><a href="#">People </a></li>
+                                    <li>
+                                        <a href="{% url 'store' %}"
+                                            >All products</a
+                                        >
+                                    </li>
+                                    {% for link in links %}
+                                    <li>
+                                        <a href="{{ link.get_absolute_url }}"
+                                            >{{ link.category_name }}</a
+                                        >
+                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!-- card-body.// -->
@@ -142,7 +145,9 @@
             <main class="col-md-9">
                 <header class="border-bottom mb-4 pb-3">
                     <div class="form-inline">
-                        <span class="mr-md-auto">{{ products.count }} Items found </span>
+                        <span class="mr-md-auto"
+                            >{{ products.count }} Items found
+                        </span>
                     </div>
                 </header>
                 <!-- sect-heading -->
@@ -152,24 +157,32 @@
                     <div class="col-md-4">
                         <figure class="card card-product-grid">
                             <div class="img-wrap">
-                                <img src={{ item.images.url }} />
+                                <a href="{{ item.get_absolute_url }}"><img src="{{ item.images.url }}" /></a>
                             </div>
                             <!-- img-wrap.// -->
                             <figcaption class="info-wrap">
                                 <div class="fix-height">
                                     <a
-                                        href="./product-detail.html"
+                                        href="{{ item.get_absolute_url }}"
                                         class="title"
                                         >{{ item.product_name }}</a
                                     >
                                     <div class="price-wrap mt-2">
-                                        <span class="price">${{ item.price }}</span>
+                                        <span class="price"
+                                            >${{ item.price }}</span
+                                        >
                                     </div>
                                     <!-- price-wrap.// -->
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary"
-                                    >Added to cart
+                                {% if item.stock <= 0 %}
+                                    <h3 class='text-danger'>
+                                        out of stock 
+                                    </h3>
+                                {% else %}
+                                <a href="#" class="btn btn-block btn-primary">
+                                    Added to cart
                                 </a>
+                                {% endif %}
                             </figcaption>
                         </figure>
                     </div>

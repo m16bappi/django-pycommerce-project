@@ -149,30 +149,19 @@
                                     <i class="fa fa-bars"></i> All category
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#"
-                                        >Machinery / Mechanical Parts / Tools
+                                    {% for link in links %}
+                                    <a class="dropdown-item" href="{{ link.get_absolute_url }}"
+                                        >{{ link.category_name }}
                                     </a>
-                                    <a class="dropdown-item" href="#"
-                                        >Consumer Electronics / Home Appliances
-                                    </a>
-                                    <a class="dropdown-item" href="#"
-                                        >Auto / Transportation</a
-                                    >
-                                    <a class="dropdown-item" href="#"
-                                        >Apparel / Textiles / Timepieces
-                                    </a>
-                                    <a class="dropdown-item" href="#"
-                                        >Home & Garden / Construction / Lights
-                                    </a>
-                                    <a class="dropdown-item" href="#"
-                                        >Beauty & Personal Care / Health
-                                    </a>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <!-- category-wrap.// -->
                         </div>
                         <!-- col.// -->
-                        <a href="{% url 'store' %}" class="btn btn-outline-primary"
+                        <a
+                            href="{% url 'store' %}"
+                            class="btn btn-outline-primary"
                             >Store</a
                         >
                         <div class="col-lg col-md-6 col-sm-12 col">
@@ -213,7 +202,7 @@
                                     </div>
                                 </div>
                                 <a
-                                    href="./cart.html"
+                                    href="{% url 'cart' %}"
                                     class="widget-header pl-3 ml-3"
                                 >
                                     <div
