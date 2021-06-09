@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block content %}
-{% load static %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <section class="section-content padding-y bg">
     <div class="container">
         <!-- ============================ COMPONENT 1 ================================= -->
@@ -21,22 +20,22 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for item in cart_items %}
                             <tr>
                                 <td>
                                     <figure class="itemside align-items-center">
                                         <div class="aside">
                                             <img
-                                                src="{% static './images/items/11.jpg' %}"
+                                                src="{{ item.product.images.url }}"
                                                 class="img-sm"
                                             />
                                         </div>
                                         <figcaption class="info">
-                                            <a href="#" class="title text-dark"
-                                                >Camera Canon EOS M50 Kit</a
+                                            <a href="{{ item.product.get_absolute_url }}" class="title text-dark"
+                                                >{{ item.product.product_name }}</a
                                             >
                                             <p class="text-muted small">
-                                                Matrix: 25 Mpx <br />
-                                                Brand: Canon
+                                                Category: {{ item.product.category.category_name }}
                                             </p>
                                         </figcaption>
                                     </figure>
@@ -46,27 +45,27 @@
                                     <div class="col">
                                         <div class="input-group input-spinner">
                                             <div class="input-group-prepend">
-                                                <button
+                                                <a
                                                     class="btn btn-light"
-                                                    type="button"
+                                                    href="{% url 'remove_to_cart' item.product.id %}"
                                                     id="button-plus"
                                                 >
                                                     <i class="fa fa-minus"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                value="1"
+                                                value="{{ item.quantity }}"
                                             />
                                             <div class="input-group-append">
-                                                <button
+                                                <a
                                                     class="btn btn-light"
-                                                    type="button"
+                                                    href="{% url 'add_to_cart' item.product.id %}"
                                                     id="button-minus"
                                                 >
                                                     <i class="fa fa-plus"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </div>
                                         <!-- input-group.// -->
@@ -75,19 +74,20 @@
                                 </td>
                                 <td>
                                     <div class="price-wrap">
-                                        <var class="price">$1156.00</var>
+                                        <var class="price">${% widthratio item.product.price 1 item.quantity %}</var>
                                         <small class="text-muted">
-                                            $315.20 each
+                                            ${{ item.product.price }} each
                                         </small>
                                     </div>
                                     <!-- price-wrap .// -->
                                 </td>
                                 <td class="text-right">
-                                    <a href="" class="btn btn-danger">
-                                        Remove</a
+                                    <a href="{% url 'delete_to_cart' item.product.id %}" class="btn btn-danger">
+                                        Delete</a
                                     >
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -98,22 +98,29 @@
                 <div class="card">
                     <div class="card-body">
                         <dl class="dlist-align">
+                            <dt>Quantity:</dt>
+                            <dd class="text-right">{{ quantity }}</dd>
+                        </dl>
+                        <dl class="dlist-align">
                             <dt>Total price:</dt>
-                            <dd class="text-right">$69.97</dd>
+                            <dd class="text-right">${{ total }}</dd>
                         </dl>
                         <dl class="dlist-align">
                             <dt>Tax:</dt>
-                            <dd class="text-right">$10.00</dd>
+                            <dd class="text-right">${{ tax }}</dd>
                         </dl>
                         <dl class="dlist-align">
-                            <dt>Total:</dt>
+                            <dt>Grand Total:</dt>
                             <dd class="text-right text-dark b">
-                                <strong>$59.97</strong>
+                                <strong>${{ grand_total }}</strong>
                             </dd>
                         </dl>
                         <hr />
                         <p class="text-center mb-3">
-                            <img src="{% static '/images/misc/payments.png' %}" height="26" />
+                            <img
+                                src="{% static '/images/misc/payments.png' %}"
+                                height="26"
+                            />
                         </p>
                         <a
                             href="./place-order.html"
@@ -121,7 +128,7 @@
                         >
                             Checkout
                         </a>
-                        <a href="./store.html" class="btn btn-light btn-block"
+                        <a href="{% url 'store' %}" class="btn btn-light btn-block"
                             >Continue Shopping</a
                         >
                     </div>
