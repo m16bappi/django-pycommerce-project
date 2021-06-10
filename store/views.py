@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.views.generic.detail import DetailView
 from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -15,10 +16,18 @@ def store(request, category_slug=None):
             category=category, is_available=True).order_by('id')
     else:
         products = Products.objects.all().filter(is_available=True).order_by('id')
+
+    products_count = products.count()
     paginator = Paginator(products, 6)
     page = request.GET.get('page')
     paginated_products = paginator.get_page(page)
-    return render(request, "store.html", {'products': paginated_products})
+
+    context = {
+        'products': paginated_products,
+        'products_count': products_count
+    }
+
+    return render(request, "store.html", context)
 
 
 class ProductDetails(DetailView):
@@ -33,4 +42,23 @@ class ProductDetails(DetailView):
 
 
 def search(request):
-    return HttpResponse('<h1>search</h1>')
+    if request.GET['keyword']:
+        keyword = request.GET['keyword']
+        products = Products.objects.filter(
+            Q(description__icontains=keyword) |
+            Q(product_name__icontains=keyword)).order_by('-created_date')
+
+        products_count = products.count()
+        paginator = Paginator(products, 6)
+        page = request.GET.get('page')
+        paginated_products = paginator.get_page(page)
+
+        context = {
+            'res': True,
+            'products': paginated_products,
+            'products_count': products_count
+        }
+
+        return render(request, 'search-result.html', context)
+    else:
+        return render(request, 'search-result.html', {'res': False})
