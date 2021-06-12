@@ -35,7 +35,9 @@
                                                 >{{ item.product.product_name }}</a
                                             >
                                             <p class="text-muted small">
-                                                Category: {{ item.product.category.category_name }}
+                                                {% for i in item.variation.all %}
+                                                    {{ i.variation_category | capfirst }} : {{ i.variation_value| capfirst }} <br>
+                                                {% endfor %}
                                             </p>
                                         </figcaption>
                                     </figure>

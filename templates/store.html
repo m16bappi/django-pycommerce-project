@@ -182,10 +182,10 @@
                                 <h5 class="text-danger">out of stock</h5>
                                 {% else %}
                                 <a
-                                    href="{% url 'add_to_cart' item.id %}"
+                                    href="{{ item.get_absolute_url }}"
                                     class="btn btn-block btn-primary"
                                 >
-                                    Added to cart
+                                    View Details
                                 </a>
                                 {% endif %}
                             </figcaption>
