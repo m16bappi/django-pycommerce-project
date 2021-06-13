@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'core',
-    'carts'
+    'carts',
+
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,18 @@ AUTH_USER_MODEL = 'accounts.Accounts'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: ''
+}
+
+
+# smtp configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mehedibijoy34@gmail.com'
+EMAIL_HOST_PASSWORD = 'Ma01730687555'
+EMAIL_USE_TLS = True
