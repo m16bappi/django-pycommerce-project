@@ -200,22 +200,27 @@
                             >
                                 <div class="widget-header">
                                     {% if user.is_authenticated %}
-                                    <a
-                                        href="{% url 'logout' %}"
-                                        class="btn btn-outline-danger"
-                                        >Logout</a
-                                    >
-                                    {% else %}
-                                    <small class="title text-muted"
-                                        >Welcome guest!</small
-                                    >
-                                    <div>
-                                        <a href="{% url 'login' %}">Sign in</a>
-                                        <span class="dark-transp"> | </span>
-                                        <a href="{% url 'register' %}">
-                                            Register</a
+                                        <small class="title text-muted"
+                                            >Welcome {{ user.first_name }}</small
                                         >
-                                    </div>
+                                        <div>
+                                            <a href="{% url 'dashboard' %}">Dashbord</a>
+                                            <span class="dark-transp"> | </span>
+                                            <a href="{% url 'logout' %}">
+                                                Logout</a
+                                            >
+                                        </div>
+                                    {% else %}
+                                        <small class="title text-muted"
+                                            >Welcome guest!</small
+                                        >
+                                        <div>
+                                            <a href="{% url 'login' %}">Sign in</a>
+                                            <span class="dark-transp"> | </span>
+                                            <a href="{% url 'register' %}">
+                                                Register</a
+                                            >
+                                        </div>
                                     {% endif %}
                                 </div>
                                 <a

@@ -143,7 +143,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
-    messages.ERROR: ''
+    messages.ERROR: 'danger'
 }
 
 
