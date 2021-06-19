@@ -22,7 +22,7 @@ def registerView(request):
 
             current_site = get_current_site(request)
             mail_subject = "Please active your account"
-            message = render_to_string('mail-templates/email_verification.html', {
+            message = render_to_string('string-templates/email_verification.html', {
                 'user': user,
                 'domain': current_site,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -94,7 +94,7 @@ def forgetPassword(request):
 
             current_site = get_current_site(request)
             mail_subject = 'Reset your password'
-            message = render_to_string('mail-templates/reset-password.html', {
+            message = render_to_string('string-templates/reset-password-email.html', {
                 'user': user,
                 'domain': current_site,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -116,4 +116,36 @@ def forgetPassword(request):
 
 
 def resetPasswordValided(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Accounts._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, ObjectDoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.success(request, 'Please enter valid password')
+        return redirect('reset-password')
+    else:
+        messages.error(request, 'Your token expired')
+        return redirect('login')
+
     return render(request, 'reset-password-valided.html')
+
+
+def resetPassword(request):
+    if request.method == 'POST':
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        if password1 == password2:
+            uid = request.session['uid']
+            user = Accounts.objects.get(pk=uid)
+            user.set_password(password1)
+            user.save()
+            messages.success(request, 'password reset successfully!')
+            return redirect('login')
+        else:
+            messages.error(request, 'password not matched')
+            return redirect('reset-password')
+    return render(request, 'reset-password.html')

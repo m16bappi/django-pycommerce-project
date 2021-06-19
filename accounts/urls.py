@@ -8,5 +8,6 @@ urlpatterns = [
     path('dashboard/', Dashboard, name='dashboard'),
     path('active/<uidb64>/<token>/', AccountActive, name='active'),
     path('forget-password/', forgetPassword, name='forget-password'),
-    path('reset-password-valided/<uidb64>/<token>/', resetPasswordValided, name='reset-password-valided')
+    path('reset-password-valided/<uidb64>/<token>/', resetPasswordValided, name='reset-password-valided'),
+    path('reset-password/', resetPassword, name='reset-password')
 ]
