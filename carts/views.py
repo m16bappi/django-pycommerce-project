@@ -108,3 +108,7 @@ def CartView(request):
     }
 
     return render(request, "cart.html", context)
+
+
+def checkout(request):
+    return render(request, 'checkout.html')
