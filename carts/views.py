@@ -111,4 +111,30 @@ def CartView(request):
 
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    total = 0
+    quantity = 0
+    tax = 0
+    grand_total = 0
+    cart_items = {}
+    try:
+        cart = Cart.objects.get(cart_id=_get_cart_id(request))
+        cart_items = cart.cart_items.all()
+
+        for item in cart_items:
+            total += (item.product.price * item.quantity)
+            quantity += item.quantity
+
+    except ObjectDoesNotExist:
+        pass
+
+    tax = (5*total)/100
+    grand_total = tax + total
+
+    context = {
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+        'tax': tax,
+        'grand_total': grand_total
+    }
+    return render(request, 'checkout.html', context)

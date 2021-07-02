@@ -1,5 +1,148 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %} {% load static %}
+<section class="section-content padding-y bg">
+    <div class="container">
+        <!-- ============================ COMPONENT 1 ================================= -->
 
-{% block content %}
-    <h1>checkout page</h1>
+        <div class="row">
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Billing address</h4>
+                        <form action="">
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">First name</label>
+                                    <input type="text" name="first-name" class="form-control">
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Last name</label>
+                                    <input type="text" name="last-name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">Email</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Phone number</label>
+                                    <input type="number" name="phone" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">Address Line 1</label>
+                                    <input type="text" name="address1" class="form-control">
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">address Line 2</label>
+                                    <input type="text" name="address2" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label for="">City</label>
+                                    <input type="text" name="city" class="form-control">
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">state</label>
+                                    <input type="text" name="state" class="form-control">
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Country</label>
+                                    <input type="text" name="country" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col w-100">
+                                    <label for="">Comment</label>
+                                    <textarea name="comment" rows="3" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- card.// -->
+            </aside>
+            <!-- col.// -->
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" >Quantity</th>
+                                    <th scope="col" >Price</th>
+                                    <th
+                                        scope="col"
+                                        class="text-right"
+                                        
+                                    ></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside">
+                                                <img
+                                                    src="{{ item.product.images.url }}"
+                                                    class="img-sm"
+                                                />
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href="{{ item.product.get_absolute_url }}" class="title text-dark"
+                                                    >{{ item.product.product_name }}</a
+                                                >
+                                                
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <!-- col.// -->
+                                        <div class="col">
+                                            <p> {{ item.quantity }} </p>
+                                        </div>
+                                        <!-- col.// -->
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">${% widthratio item.product.price 1 item.quantity %}</var>
+                                            <small class="text-muted">
+                                                ${{ item.product.price }} each
+                                            </small>
+                                        </div>
+                                        <!-- price-wrap .// -->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <a
+                            href="{% url 'checkout' %}"
+                            class="btn btn-primary btn-block"
+                        >
+                            Checkout
+                        </a>
+                        <a href="{% url 'store' %}" class="btn btn-light btn-block"
+                            >Continue Shopping</a
+                        >
+                    </div>
+                    <!-- card-body.// -->
+                </div>
+                <!-- card.// -->
+            </aside>
+            <!-- col.// -->
+        </div>
+        <!-- row.// -->
+        <!-- ============================ COMPONENT 1 END .// ================================= -->
+    </div>
+    <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
 {% endblock %}
