@@ -49,7 +49,7 @@
                                             <div class="input-group-prepend">
                                                 <a
                                                     class="btn btn-light"
-                                                    href="{% url 'remove_to_cart' item.product.id %}"
+                                                    href="{% url 'remove_to_cart' item.product.id item.id %}"
                                                     id="button-plus"
                                                 >
                                                     <i class="fa fa-minus"></i>
@@ -61,13 +61,19 @@
                                                 value="{{ item.quantity }}"
                                             />
                                             <div class="input-group-append">
-                                                <a
-                                                    class="btn btn-light"
-                                                    href="{% url 'add_to_cart' item.product.id %}"
-                                                    id="button-minus"
-                                                >
-                                                    <i class="fa fa-plus"></i>
-                                                </a>
+                                                <form action="{% url 'add_to_cart' item.product.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    {% for i in item.variation.all %}
+                                                        <input type="hidden" name="{{ i.variation_category | lower }}" value="{{ i.variation_value| capfirst }}" >
+                                                    {% endfor %}
+                                                    <button
+                                                        type="submit"
+                                                        class="btn btn-light"
+                                                        id="button-minus"
+                                                    >
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                         <!-- input-group.// -->
@@ -84,7 +90,7 @@
                                     <!-- price-wrap .// -->
                                 </td>
                                 <td class="text-right">
-                                    <a href="{% url 'delete_to_cart' item.product.id %}" class="btn btn-danger">
+                                    <a href="{% url 'delete_to_cart' item.id %}" class="btn btn-danger">
                                         Delete</a
                                     >
                                 </td>

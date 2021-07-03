@@ -1,5 +1,6 @@
 from django.db import models
 from store.models import Products, Variation
+from accounts.models import Accounts
 
 
 class Cart(models.Model):
@@ -17,10 +18,12 @@ class Cart(models.Model):
 
 class Cart_Item(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE)
+    cart = models.ForeignKey(
+        Cart, related_name='cart_items', on_delete=models.CASCADE)
     quantity = models.IntegerField()
     variation = models.ManyToManyField(Variation, blank=True)
     is_active = models.BooleanField(default=True)
+    user = models.ForeignKey(Accounts, on_delete=models.CASCADE, null=True)
 
     class Meta:
         ordering = ['-product']

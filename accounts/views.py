@@ -3,6 +3,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+from carts.models import Cart
+from carts.views import _get_cart_id
 from .forms import RegisterForm
 from .models import Accounts
 
@@ -46,6 +49,17 @@ def loginView(request):
         user = authenticate(email=email, password=password)
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_get_cart_id(request))
+                cart_items = cart.cart_items.all()
+                print(cart_items)
+                if cart_items.exists():
+                    for item in cart_items:
+                        item.user = user
+                        item.save()
+            except:
+                pass
+
             login(request, user=user)
             try:
                 next = request.GET['next']
