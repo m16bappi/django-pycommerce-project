@@ -19,7 +19,7 @@ class Cart(models.Model):
 class Cart_Item(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     cart = models.ForeignKey(
-        Cart, related_name='cart_items', on_delete=models.CASCADE)
+        Cart, related_name='cart_items', on_delete=models.CASCADE, null=True)
     quantity = models.IntegerField()
     variation = models.ManyToManyField(Variation, blank=True)
     is_active = models.BooleanField(default=True)
