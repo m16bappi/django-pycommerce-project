@@ -45,12 +45,13 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.first_name
-    
+        return self.first_name
+
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, null=True, blank=True)
+    payment = models.ForeignKey(
+        Payment, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     variation = models.ForeignKey(Variation, on_delete=models.CASCADE)
