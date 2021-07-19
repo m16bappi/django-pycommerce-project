@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 <section class="section-content padding-y bg">
     <div class="container">
+        {% include 'alert.html' %}
         <!-- ============================ COMPONENT 1 ================================= -->
         <form action="{% url 'place-order' %}" method="POST">
             {% csrf_token %}
